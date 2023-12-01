@@ -19,12 +19,12 @@ message RegisterRequest {
 }
 
 message RegisterResponse {
-    string user_id = 1;
+    int32 user_id = 1;
     string error = 2;
 }
 
 message ReadRequest {
-    string user_id = 1;
+    int32 user_id = 1;
 }
 
 message ReadResponse {
