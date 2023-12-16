@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package lib;
+
+option go_package = "github.com/hencsat46/protos;lib";
+
+service Lib {
+    rpc Add(RegisterRequest) returns (RegisterResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+message RegisterRequest {
+    string username = 1;
+}
+
+message RegisterResponse {
+    string error = 1;
+}
+
+message DeleteRequest {
+    string username = 1;
+}
+
+message DeleteResponse {
+    string error = 1;
+}
