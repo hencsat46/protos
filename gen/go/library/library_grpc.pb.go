@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type LibClient interface {
 	Add(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 }
 
 type libClient struct {
@@ -52,12 +53,22 @@ func (c *libClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.
 	return out, nil
 }
 
+func (c *libClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+	out := new(GetResponse)
+	err := c.cc.Invoke(ctx, "/lib.Lib/Get", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LibServer is the server API for Lib service.
 // All implementations must embed UnimplementedLibServer
 // for forward compatibility
 type LibServer interface {
 	Add(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	Get(context.Context, *GetRequest) (*GetResponse, error)
 	mustEmbedUnimplementedLibServer()
 }
 
@@ -70,6 +81,9 @@ func (UnimplementedLibServer) Add(context.Context, *RegisterRequest) (*RegisterR
 }
 func (UnimplementedLibServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedLibServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedLibServer) mustEmbedUnimplementedLibServer() {}
 
@@ -120,6 +134,24 @@ func _Lib_Delete_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Lib_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LibServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lib.Lib/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LibServer).Get(ctx, req.(*GetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Lib_ServiceDesc is the grpc.ServiceDesc for Lib service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +166,10 @@ var Lib_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _Lib_Delete_Handler,
+		},
+		{
+			MethodName: "Get",
+			Handler:    _Lib_Get_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

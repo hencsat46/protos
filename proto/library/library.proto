@@ -7,6 +7,7 @@ option go_package = "github.com/hencsat46/protos;lib";
 service Lib {
     rpc Add(RegisterRequest) returns (RegisterResponse);
     rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc Get(GetRequest) returns (GetResponse);
 }
 
 message RegisterRequest {
@@ -23,4 +24,12 @@ message DeleteRequest {
 
 message DeleteResponse {
     string error = 1;
+}
+
+message GetRequest {
+    string username = 1;
+}
+
+message GetResponse {
+    string username = 1;
 }
