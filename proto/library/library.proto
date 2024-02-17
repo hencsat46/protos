@@ -23,7 +23,7 @@ message DeleteRequest {
 }
 
 message DeleteResponse {
-    string error = 1;
+    string status = 1;
 }
 
 message GetRequest {
