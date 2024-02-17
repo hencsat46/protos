@@ -6,6 +6,7 @@ option go_package = "github.com/hencsat46/protos;manager";
 
 service Manager {
     rpc CreateAccount(RegisterRequest) returns (RegisterResponse);
+
     rpc CreateLibraryAccount(RegisterLibRequest) returns (RegisterLibResponse);
 }
 
@@ -18,7 +19,7 @@ message RegisterRequest {
 
 message RegisterResponse {
     int32 user_id = 1;
-    string error = 2;
+    string status = 2;
 }
 
 message RegisterLibRequest {
