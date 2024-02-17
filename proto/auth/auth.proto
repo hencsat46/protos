@@ -24,7 +24,7 @@ message RegisterResponse {
 }
 
 message ReadRequest {
-    int32 user_id = 1;
+    string username = 1;
 }
 
 message ReadResponse {
