@@ -27,9 +27,9 @@ message DeleteResponse {
 }
 
 message GetRequest {
-    int32 user_id = 1;
+    string username = 1;
 }
 
 message GetResponse {
-    string username = 1;
+    string status = 1;
 }
